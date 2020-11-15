@@ -1,19 +1,19 @@
 `include "Params.h"
 
 module Activation (
-    input                   clk,    //Clock
-    input                   rst,    //Reset (System)
-    inout                   act1,   //Activation Port-1
-    inout                   act2    //Activation Port-2
-)
+    input                       clk,    //Clock
+    input                       rst,    //Reset (System)
+    inout  [`DataWidth-1:0]     act1,   //Activation Port-1
+    inout  [`DataWidth-1:0]     act2    //Activation Port-2
+)；
 
     /* Reg                      */
-    reg     [DataWidth-1:0] PreAct; //Pre-Activation
-    reg     [DataWidth-1:0] PstAct; //Post-Activation
+    reg     [`DataWidth-1:0]    PreAct; //Pre-Activation
+    reg     [`DataWidth-1:0]    PstAct; //Post-Activation
 
 
     /* Wire                     */
-    wire    [DataWidth-1:0] act_i;  //Pre-Activation
+    wire    [`DataWidth-1:0] act_i;  //Pre-Activation
 
 
     /* Pre-Activation Select    */
@@ -34,7 +34,7 @@ module Activation (
 
 
     /* Post-Activation Output   */
-    assign act1     = (sel_o1) ? PreAct : 0;
-    assign act2     = (sel_o2) ? PreAct : 0;
+    assign act1     = (sel_o1) ? PreAct : z;
+    assign act2     = (sel_o2) ? PreAct : z;
 
 endmodule

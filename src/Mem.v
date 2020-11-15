@@ -1,24 +1,24 @@
 `include "Params.h"
 
 module DMem (
-    input                   clk,    //Clock
-    input                   rst,    //Reset (System)
-    input   [DataWidth-1:0] v_s_i,  //Vertical Input
-    input   [DataWidth-1:0] h_s_i,  //Horizontal Input
-    output  [DataWidth-1:0] v_s_o,  //Vertical Output
-    output  [DataWidth-1:0] h_s_o,  //Horizontal Output
-    input   [AddrDMEM-1:0]  r_addr, //Read Address: Memory
-    input   [AddrDMEM-1:0]  w_addr  //Write Address: Memory
+    input                       clk,    //Clock
+    input                       rst,    //Reset (System)
+    input   [`DataWidth-1:0]    v_s_i,  //Vertical Input
+    input   [`DataWidth-1:0]    h_s_i,  //Horizontal Input
+    output  [`DataWidth-1:0]    v_s_o,  //Vertical Output
+    output  [`DataWidth-1:0]    h_s_o,  //Horizontal Output
+    input   [AddrDMEM-1:0]      r_addr, //Read Address: Memory
+    input   [AddrDMEM-1:0]      w_addr  //Write Address: Memory
 );
 
     /* Memory                       */
     // Data Memory
-    mem [DataWidth-1:0]     DMEM [0:(2**AddrMEM)-1];
+    mem [`DataWidth-1:0]     DMEM [0:(2**AddrMEM)-1];
 
 
     /* Wire                         */
-    wire [DataWidth-1:0]    ram_i;  //Data Memory Input
-    wire [DataWidth-1:0]    ram_o;  //Data Memory Output
+    wire [`DataWidth-1:0]    ram_i;  //Data Memory Input
+    wire [`DataWidth-1:0]    ram_o;  //Data Memory Output
 
 
     /* Datum Memory                 */

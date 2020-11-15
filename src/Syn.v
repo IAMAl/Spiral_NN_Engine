@@ -1,49 +1,49 @@
 `include "Params.h"
 
 module Synapse (
-    input                   clk,    //Clock
-    input                   rst,    //Reset (System)
-    inout   [DataWidth-1:0] v_b_t,  //Bi-Directional Port: Top-Side
-    inout   [DataWidth-1:0] v_b_b,  //Bi-Directional Port: Bottomn-Side
-    inout   [DataWidth-1:0] h_b_l,  //Bi-Directional Port: Left-Side
-    inout   [DataWidth-1:0] h_b_r,  //Bi-Directional Port: Right-Side
-    input   [DataWidth-1:0] v_s_i,  //Vertical Input
-    input   [DataWidth-1:0] h_s_i,  //Horizontal Input
-    output  [DataWidth-1:0] v_s_o,  //Vertical Output
-    output  [DataWidth-1:0] h_s_o,  //Horizontal Output
-    input   [AddrDMEM-1:0]  r_addr, //Read Address: Data Memory
-    input   [AddrDMEM-1:0]  w_addr  //Write Address: Data Memory
+    input                       clk,    //Clock
+    input                       rst,    //Reset (System)
+    inout   [`DataWidth-1:0]    v_b_t,  //Bi-Directional Port: Top-Side
+    inout   [`DataWidth-1:0]    v_b_b,  //Bi-Directional Port: Bottomn-Side
+    inout   [`DataWidth-1:0]    h_b_l,  //Bi-Directional Port: Left-Side
+    inout   [`DataWidth-1:0]    h_b_r,  //Bi-Directional Port: Right-Side
+    input   [`DataWidth-1:0]    v_s_i,  //Vertical Input
+    input   [`DataWidth-1:0]    h_s_i,  //Horizontal Input
+    output  [`DataWidth-1:0]    v_s_o,  //Vertical Output
+    output  [`DataWidth-1:0]    h_s_o,  //Horizontal Output
+    input   [`AddrDMEM-1:0]     r_addr, //Read Address: Data Memory
+    input   [`AddrDMEM-1:0]     w_addr  //Write Address: Data Memory
 );
 
     /* Memory                       */
     // Data Memory
-    mem [DataWidth-1:0]     DMEM [0:(2**AddrDMEM)-1];
+    mem [`DataWidth-1:0]    DMEM [0:(2**AddrDMEM)-1];
 
     //Configuration Memory
-    mem [ConfWidth-1:0]     CMEM [0:(2**AddrCMEM)-1];
+    mem [`ConfWidth-1:0]    CMEM [0:(2**AddrCMEM)-1];
 
 
     /* Reg                          */
-    reg [DataWidth-1:0]     v_REG;  //Pipeline Register: Vertical
-    reg [DataWidth-1:0]     h_REG;  //Pipeline Register: Horizontal
-    reg [DataWidth-1:0]     v_REG_o;//Forward Register: Vertical
-    reg [DataWidth-1:0]     h_REG_o;//Forward Register: Horizontal
-    reg [DataWidth-1:0]     a_REG;  //Adder: Operand Register
-    reg [DataWidth-1:0]     m_REG;  //Multiplier: Output Register
+    reg [`DataWidth-1:0]    v_REG;  //Pipeline Register: Vertical
+    reg [`DataWidth-1:0]    h_REG;  //Pipeline Register: Horizontal
+    reg [`DataWidth-1:0]    v_REG_o;//Forward Register: Vertical
+    reg [`DataWidth-1:0]    h_REG_o;//Forward Register: Horizontal
+    reg [`DataWidth-1:0]    a_REG;  //Adder: Operand Register
+    reg [`DataWidth-1:0]    m_REG;  //Multiplier: Output Register
 
 
     /* Wire                         */
-    wire [DataWidth-1:0]    v_mux;
-    wire [DataWidth-1:0]    h_mux;
-    wire [DataWidth-1:0]    mlt;    //Multiplication Result
-    wire [DataWidth-1:0]    add;    //Addtion Result
-    wire [DataWidth-1:0]    m_mux1; //Multiply Operand-1
-    wire [DataWidth-1:0]    m_mux2; //Multiply Operand-2
-    wire [DataWidth-1:0]    a_out1; //Add Fanout-1
-    wire [DataWidth-1:0]    a_out2; //Add Fanout-2
-    wire [DataWidth-1:0]    a_mux;  //Add Operand-2
-    wire [DataWidth-1:0]    ram_i;  //Data Memory Input
-    wire [DataWidth-1:0]    ram_o;  //Data Memory Output
+    wire [`DataWidth-1:0]   v_mux;
+    wire [`DataWidth-1:0]   h_mux;
+    wire [`DataWidth-1:0]   mlt;    //Multiplication Result
+    wire [`DataWidth-1:0]   add;    //Addtion Result
+    wire [`DataWidth-1:0]   m_mux1; //Multiply Operand-1
+    wire [`DataWidth-1:0]   m_mux2; //Multiply Operand-2
+    wire [`DataWidth-1:0]   a_out1; //Add Fanout-1
+    wire [`DataWidth-1:0]   a_out2; //Add Fanout-2
+    wire [`DataWidth-1:0]   a_mux;  //Add Operand-2
+    wire [`DataWidth-1:0]   ram_i;  //Data Memory Input
+    wire [`DataWidth-1:0]   ram_o;  //Data Memory Output
 
 
     /* Multiplier                   */
