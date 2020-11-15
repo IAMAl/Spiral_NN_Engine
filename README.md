@@ -1,2 +1,3 @@
-# Spiral_NN_Engine
-Spiral Neural Network Engine
+# Spiral Neural Network Engine
+
+## Neural Network Accelerator described in Book
