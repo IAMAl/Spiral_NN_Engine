@@ -1,6 +1,6 @@
 `include "Params.h"
 
-module Elm (
+module Synapse (
     input                   clk,    //Clock
     input                   rst,    //Reset (System)
     inout   [DataWidth-1:0] v_b_t,  //Bi-Directional Port: Top-Side
@@ -23,7 +23,7 @@ module Elm (
     mem [ConfWidth-1:0]     CMEM [0:(2**AddrCMEM)-1];
 
 
-    /* Register                     */
+    /* Reg                          */
     reg [DataWidth-1:0]     v_REG;  //Pipeline Register: Vertical
     reg [DataWidth-1:0]     h_REG;  //Pipeline Register: Horizontal
     reg [DataWidth-1:0]     v_REG_o;//Forward Register: Vertical
