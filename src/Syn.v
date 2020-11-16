@@ -158,7 +158,7 @@ module Synapse (
     //Memory-Write Select
     assign ram_i    = (sel_ram_i == 2'b01) ? h_REG :
                       (sel_ram_i == 2'b10) ? v_REG : 
-                      (sel_ram_i == 2'b10) ? a_out2 : 0;
+                      (sel_ram_i == 2'b11) ? a_out2 : 0;
 
     //Memory-Write
     always @(posedge clk) begin
