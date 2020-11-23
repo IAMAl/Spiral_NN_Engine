@@ -9,11 +9,10 @@ module Activation (
 
     /* Reg                      */
     reg     [`DataWidth-1:0]    PreAct; //Pre-Activation
-    reg     [`DataWidth-1:0]    PstAct; //Post-Activation
-
 
     /* Wire                     */
-    wire    [`DataWidth-1:0] act_i;  //Pre-Activation
+    wire    [`DataWidth-1:0]    act_i;  //Pre-Activation
+    wire    [`DataWidth-1:0]    PstAct; //Post-Activation
 
 
     /* Pre-Activation Select    */
@@ -22,7 +21,7 @@ module Activation (
                       (sel_i == 2'b10) ? act1 : act2;
 
 
-    /* Retime Activation        */
+    /* Retime Pre-Activation    */
     always @(posedge clk) begin
         if (rst) begin
             PreAct  <= 0;
@@ -33,8 +32,12 @@ module Activation (
     end
 
 
+    /* Activation (ReLU)        */
+    assign PstAct   = (PreAct[`DataWidth-1]) ? 0 : PreAct;
+
+
     /* Post-Activation Output   */
-    assign act1     = (sel_o1) ? PreAct : z;
-    assign act2     = (sel_o2) ? PreAct : z;
+    assign act1     = (sel_o1) ? PstAct : z;
+    assign act2     = (sel_o2) ? PstAct : z;
 
 endmodule
