@@ -13,13 +13,17 @@ module DMem (
 
     /* Memory                       */
     // Data Memory
-    mem [`DataWidth-1:0]     DMEM [0:(2**AddrMEM)-1];
+    mem [`DataWidth-1:0]    DMEM [0:(2**AddrMEM)-1];
 
 
     /* Wire                         */
-    wire [`DataWidth-1:0]    ram_i;  //Data Memory Input
-    wire [`DataWidth-1:0]    ram_o;  //Data Memory Output
+    wire [`DataWidth-1:0]   ram_i;      //Data Memory Input
+    wire [`DataWidth-1:0]   ram_o;      //Data Memory Output
 
+    //Configuration Data (4-bit)
+    wire [1:0]              sel_ram_i;  //RAM Input Select
+    wire [1:0]              sel_ram_0;  //RAM Output Select
+    
 
     /* Datum Memory                 */
     //Write Datum Select

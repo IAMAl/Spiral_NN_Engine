@@ -8,11 +8,16 @@ module Activation (
 )；
 
     /* Reg                      */
-    reg     [`DataWidth-1:0]    PreAct; //Pre-Activation
+    reg [`DataWidth-1:0]    PreAct; //Pre-Activation
 
     /* Wire                     */
-    wire    [`DataWidth-1:0]    act_i;  //Pre-Activation
-    wire    [`DataWidth-1:0]    PstAct; //Post-Activation
+    wire [`DataWidth-1:0]   act_i;  //Pre-Activation
+    wire [`DataWidth-1:0]   PstAct; //Post-Activation
+
+    //Configuration Data (4-bit)
+    wire [1:0]              sel_i;  //Act-Func Source Selection
+    wire                    sel_o1; //Output Enable-1
+    wire                    sel_o2; //Output Enable-2
 
 
     /* Pre-Activation Select    */

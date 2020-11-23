@@ -35,15 +35,28 @@ module Synapse (
     /* Wire                         */
     wire [`DataWidth-1:0]   v_mux;
     wire [`DataWidth-1:0]   h_mux;
-    wire [`DataWidth-1:0]   mlt;    //Multiplication Result
-    wire [`DataWidth-1:0]   add;    //Addtion Result
-    wire [`DataWidth-1:0]   m_mux1; //Multiply Operand-1
-    wire [`DataWidth-1:0]   m_mux2; //Multiply Operand-2
-    wire [`DataWidth-1:0]   a_out1; //Add Fanout-1
-    wire [`DataWidth-1:0]   a_out2; //Add Fanout-2
-    wire [`DataWidth-1:0]   a_mux;  //Add Operand-2
-    wire [`DataWidth-1:0]   ram_i;  //Data Memory Input
-    wire [`DataWidth-1:0]   ram_o;  //Data Memory Output
+    wire [`DataWidth-1:0]   mlt;        //Multiplication Result
+    wire [`DataWidth-1:0]   add;        //Addtion Result
+    wire [`DataWidth-1:0]   m_mux1;     //Multiply Operand-1
+    wire [`DataWidth-1:0]   m_mux2;     //Multiply Operand-2
+    wire [`DataWidth-1:0]   m_mltr;     //Multiplier
+    wire                    m_mltd;     //Multiplicand
+    wire [`DataWidth-1:0]   a_out1;     //Add Fanout-1
+    wire [`DataWidth-1:0]   a_out2;     //Add Fanout-2
+    wire [`DataWidth-1:0]   a_mux;      //Add Operand-2
+    wire [`DataWidth-1:0]   ram_i;      //Data Memory Input
+    wire [`DataWidth-1:0]   ram_o;      //Data Memory Output
+
+    //Configuration Data (15-bit)
+    wire [1:0]              sel_m_mux1;
+    wire [1:0]              sel_m_mux2;
+    wire                    sel_a_mux1;
+    wire [1:0]              sel_a_mux2;
+    wire                    sel_a1;
+    wire                    sel_a2;
+    wire [1:0]              sel_v_line;
+    wire [1:0]              sel_h_line;
+    wire [1:0]              sel_ram_i;
 
 
     /* Multiplier                   */
@@ -56,6 +69,9 @@ module Synapse (
     assign m_mux2   = (sel_m_mux2 == 2'b01) ? v_s_i :
                       (sel_m_mux2 == 2'b10) ? h_s_i :
                       (sel_m_mux2 == 2'b10) ? ram_o : 0;
+
+    /*Satulation Preprocessing      */
+    assign m_mltd   = (m_mux1 != 0);
 
     //Multiply
     assign mlt      = m_mux1 * m_mux2;
