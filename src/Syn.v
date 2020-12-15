@@ -12,7 +12,13 @@ module Synapse (
     output  [`DataWidth-1:0]    v_s_o,  //Vertical Output
     output  [`DataWidth-1:0]    h_s_o,  //Horizontal Output
     input   [`AddrDMEM-1:0]     r_addr, //Read Address: Data Memory
-    input   [`AddrDMEM-1:0]     w_addr  //Write Address: Data Memory
+    input   [`AddrDMEM-1:0]     w_addr, //Write Address: Data Memory
+    input   [15:0]              cfgdat, //Configuration Data
+    input                       row_en, //Row-Enable
+    input                       clm_en  //Column-Enable
+    input                       row_rd  //Row Read-Enable
+    input                       clm_rd  //Column Read-Enable
+    input                       rtm_en  //Retime-Enable
 );
 
     /* Memory                       */
@@ -48,6 +54,7 @@ module Synapse (
     wire [`DataWidth-1:0]   ram_o;      //Data Memory Output
 
     //Configuration Data (15-bit)
+    wire                    exe_en;
     wire [1:0]              sel_m_mux1;
     wire [1:0]              sel_m_mux2;
     wire                    sel_a_mux1;
@@ -57,6 +64,26 @@ module Synapse (
     wire [1:0]              sel_v_line;
     wire [1:0]              sel_h_line;
     wire [1:0]              sel_ram_i;
+
+    //Enable to Work
+    wire                    run_en;
+
+
+    /* Unpack Configuration Data    */
+    assign exec_en      = cfgdat[15];
+    assign sel_m_mux1   = cfgdat[14:13];
+    assign sel_m_mux2   = cfgdat[12:11];
+    assign sel_aa_mux1  = cfgdat[10];
+    assign sel_a_mux2   = cfgdat[9:8];
+    assign sel_a1       = cfgdat[7];
+    assign sel_a2       = cfgdat[6];
+    assign sel_v_line   = cfgdat[5:4];
+    assign sel_h_line   = cfgdat[3:2];
+    assign sel_ram_i    = cfgdat[1:0];
+
+
+    /* Retiming Enable              */
+    assign run_en   = exe_en & row_en & clm_en;
 
 
     /* Multiplier                   */
@@ -81,7 +108,7 @@ module Synapse (
         if (rst) begin
             m_REG   <= 0;
         end
-        else begin
+        else if (run_en) begin
             m_REG   <= mlt;
         end
     end
@@ -101,7 +128,7 @@ module Synapse (
         if (rst) begin
             a_REG   <= 0;
         end
-        else begin
+        else if (run_en) begin
             a_REG   <= a_mux2;
         end
     end
@@ -123,7 +150,7 @@ module Synapse (
         if (rst) begin
             v_REG   <= 0;
         end
-        else begin
+        else if (clm_rd) begin
             v_REG   <= v_line;
         end
     end
@@ -138,7 +165,7 @@ module Synapse (
         if (rst) begin
             h_REG   <= 0;
         end
-        else begin
+        else if (row_rd) begin
             h_REG   <= h_line;
         end
     end
@@ -178,7 +205,7 @@ module Synapse (
 
     //Memory-Write
     always @(posedge clk) begin
-        if (we_ram) begin
+        if (rtm_en) begin
             DMEM[w_addr]    = ram_i;
         end
     end
