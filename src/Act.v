@@ -4,7 +4,8 @@ module Activation (
     input                       clk,    //Clock
     input                       rst,    //Reset (System)
     inout  [`DataWidth-1:0]     act1,   //Activation Port-1
-    inout  [`DataWidth-1:0]     act2    //Activation Port-2
+    inout  [`DataWidth-1:0]     act2,   //Activation Port-2
+    input                       rtm_en  //Retime Enable
 )；
 
     /* Reg                      */
@@ -31,7 +32,7 @@ module Activation (
         if (rst) begin
             PreAct  <= 0;
         end
-        else begin
+        else if (rtm_en) begin
             PreAct  <= act_i;
         end
     end
