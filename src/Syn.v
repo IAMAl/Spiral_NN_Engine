@@ -30,12 +30,12 @@ module Synapse (
 
 
     /* Reg                          */
-    reg [`DataWidth-1:0]    v_REG;  //Pipeline Register: Vertical
-    reg [`DataWidth-1:0]    h_REG;  //Pipeline Register: Horizontal
-    reg [`DataWidth-1:0]    v_REG_o;//Forward Register: Vertical
-    reg [`DataWidth-1:0]    h_REG_o;//Forward Register: Horizontal
-    reg [`DataWidth-1:0]    a_REG;  //Adder: Operand Register
-    reg [`DataWidth-1:0]    m_REG;  //Multiplier: Output Register
+    reg [`DataWidth-1:0]    v_REG;      //Pipeline Register: Vertical
+    reg [`DataWidth-1:0]    h_REG;      //Pipeline Register: Horizontal
+    reg [`DataWidth-1:0]    v_REG_o;    //Forward Register: Vertical
+    reg [`DataWidth-1:0]    h_REG_o;    //Forward Register: Horizontal
+    reg [`DataWidth-1:0]    a_REG;      //Adder: Operand Register
+    reg [`DataWidth-1:0]    m_REG;      //Multiplier: Output Register
 
 
     /* Wire                         */
@@ -54,16 +54,16 @@ module Synapse (
     wire [`DataWidth-1:0]   ram_o;      //Data Memory Output
 
     //Configuration Data (15-bit)
-    wire                    exe_en;
-    wire [1:0]              sel_m_mux1;
-    wire [1:0]              sel_m_mux2;
-    wire                    sel_a_mux1;
-    wire [1:0]              sel_a_mux2;
-    wire                    sel_a1;
-    wire                    sel_a2;
-    wire [1:0]              sel_v_line;
-    wire [1:0]              sel_h_line;
-    wire [1:0]              sel_ram_i;
+    wire                    exe_en;     //Exec Enable Flag
+    wire [1:0]              sel_m_mux1; //Multiplier Source Select
+    wire [1:0]              sel_m_mux2; //Multiplier Source Select
+    wire                    sel_a_mux1; //Adder Source Select
+    wire [1:0]              sel_a_mux2; //Adder Source Select
+    wire                    sel_a1;     //Addition Routing
+    wire                    sel_a2;     //Addition Routing
+    wire [1:0]              sel_v_line; //Vertical Line Select
+    wire [1:0]              sel_h_line; //Horizontal Line Select
+    wire [1:0]              sel_ram_i;  //Local RAM Input Select
 
     //Enable to Work
     wire                    run_en;

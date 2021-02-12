@@ -6,6 +6,7 @@ module Activation (
     inout  [`DataWidth-1:0]     act1,   //Activation Port-1
     inout  [`DataWidth-1:0]     act2,   //Activation Port-2
     input                       rtm_en  //Retime Enable
+    input   [3:0]               cfgdat  //Configuration Data
 )；
 
     /* Reg                      */
@@ -22,6 +23,7 @@ module Activation (
 
 
     /* Pre-Activation Select    */
+    assign sel_i    = cfgdat[1:0];
     assign act_i    = (sel_i == 2'b00) ? 0 :
                       (sel_i == 2'b01) ? 0 :
                       (sel_i == 2'b10) ? act1 : act2;
@@ -43,6 +45,8 @@ module Activation (
 
 
     /* Post-Activation Output   */
+    assign sel_o1   = cfgdat[2];
+    assign sel_o2   = cfgdat[3];
     assign act1     = (sel_o1) ? PstAct : z;
     assign act2     = (sel_o2) ? PstAct : z;
 

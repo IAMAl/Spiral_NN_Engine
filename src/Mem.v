@@ -9,6 +9,7 @@ module DMem (
     output  [`DataWidth-1:0]    h_s_o,  //Horizontal Output
     input   [AddrDMEM-1:0]      r_addr, //Read Address: Memory
     input   [AddrDMEM-1:0]      w_addr  //Write Address: Memory
+    input   [3:0]               cfgdat  //Configuration Data
 );
 
     /* Memory                       */
@@ -27,11 +28,13 @@ module DMem (
 
     /* Datum Memory                 */
     //Write Datum Select
+    assign sel_ram_i    = cfgdat[1:0];
     assign ram_i    = (sel_ram_i == 2'b00) ? 0 :
                       (sel_ram_i == 2'b01) ? 0 :
                       (sel_ram_i == 2'b10) ? v_s_i : h_s_i;
     
     //Vertical Output
+    assign sel_ram_o    = cfgdat[3:2];
     assign v_s_o    = (sel_ram_o == 2'b00) ? 0 :
                       (sel_ram_o == 2'b01) ? 0 :
                       (sel_ram_o == 2'b10) ? ram_o : 0;
